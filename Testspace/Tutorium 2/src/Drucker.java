@@ -18,6 +18,8 @@ public class Drucker extends Elektrogeraete{
         // todo
         this.Netzwerkname = Netzwerkname;
         fill();
+        pruefen();
+        this.Druckauftraege = new LinkedList<>();
     }
 
     public void DruckauftragEinreihen(Druckauftrag d) {
@@ -54,20 +56,36 @@ public class Drucker extends Elektrogeraete{
         // todo
         if (Druckauftraege.isEmpty()) {
             System.out.println("Keine Druckauftraege gefunden.");
+            this.TageBisPruefdatum--;
             return;
         }
-        if (getTinte() == 0) {
-            System.out.println("Nicht genug Tinte vorhanden.");
-            return;
+        
+        while (!Druckauftraege.isEmpty()) {
+            if (getTinte() == 0) {
+                System.out.println("Nicht genug Tinte vorhanden.");
+                System.out.println("Tinte wird nachgefuellt...");
+                warten(10);
+                fill();
+                System.out.println("Drucken wird fortgesetzt.");
+            }
+            if (TageBisPruefdatum == 0) {
+                System.out.println("Pruefdatum erreicht! Geraet pruefen!");
+                System.out.println("Geraet wird geprueft...");
+                warten(20);
+                pruefen();
+                System.out.println("Geraet geprueft. Drucken wird fortgesetzt.");
+            }
+            if (Druckauftraege.peek().getSeitenzahl() > getTinte()) {
+                System.out.println("Nicht genug Tinte vorhanden.");
+                System.out.println("Tinte wird nachgefuellt...");
+                warten(10);
+                fill();
+                System.out.println("Tinte nachgefuellt. Drucken wird fortgesetzt.");
+            }
+
+            this.Tinte -= Druckauftraege.peek().getSeitenzahl();
+            this.TageBisPruefdatum--;
+            warten(Druckauftraege.poll().getSeitenzahl());
         }
-        if (TageBisPruefdatum == 0) {
-            System.out.println("Pruefdatum erreicht! Geraet pruefen!");
-            return;
-        }
-        if (Druckauftraege.peek().getSeitenzahl() > getTinte()) {
-            System.out.println("Nicht genug Tinte vorhanden.");
-            return;
-        }
-        warten(Druckauftraege.poll().getSeitenzahl());
     }
 }
