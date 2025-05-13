@@ -2,6 +2,59 @@ import java.util.Objects;
 
 public class Pair<E> {
 // TODO
+
+    E first;
+    E second;
+
+    Pair(E first, E second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    Pair(Pair<E> other) {
+        this.first = other.first;
+        this.second = other.second;
+    }
+
+    public void swap() {
+        E temp  = first;
+        first = second;
+        second = temp;
+    }
+
+    public E getFirst() {
+        return first;
+    }
+
+    public void setFirst(E first) {
+        this.first = first;
+    }
+
+    public E getSecond() {
+        return second;
+    }
+
+    public void setSecond(E second) {
+        this.second = second;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Pair<?> pair = (Pair<?>) o;
+        return Objects.equals(getFirst(), pair.getFirst()) && Objects.equals(getSecond(), pair.getSecond());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirst(), getSecond());
+    }
+
+    @Override
+    public String toString() {
+        return "Pair<" + first + ", " + second + ">";
+    }
+
     public static void main(String[] args) {
         Pair<Integer> pair1 = new Pair<>(1, 2);
         Pair<Integer> pair2 = new Pair<>(1, 2);

@@ -4,21 +4,32 @@ public class Triangle extends ConvexPolygon {
 
     public Triangle(Vector2D a, Vector2D b, Vector2D c) {
         // TODO
+        super(new Vector2D[]{a, b, c});
     }
 
     public Triangle(Triangle triangle) {
         // TODO
+        super(triangle.vertices);
     }
 
     @Override
     public double area() {
         // TODO
+        Vector2D a = new Vector2D(vertices[1].getX() - vertices[0].getX(),vertices[1].getY() - vertices[0].getY());
+        Vector2D b = new Vector2D(vertices[2].getX() - vertices[1].getX(),vertices[2].getY() - vertices[1].getY());
+        Vector2D c = new Vector2D(vertices[0].getX() - vertices[2].getX(),vertices[0].getY() - vertices[2].getY());
+        double s1 = a.length();
+        double s2 = b.length();
+        double s3 = c.length();
+        double s = (s1 + s2 + s3)/2;
+        return Math.sqrt(s * (s-s1) * (s-s2) * (s-s3));
     }
 
     @Override
     public String toString() {
         // TODO
-        }
+        return "Triangle{" + Arrays.toString(vertices) + "}";
+    }
 
     public static void main(String[] args) {
         Vector2D a = new Vector2D(0, 0);

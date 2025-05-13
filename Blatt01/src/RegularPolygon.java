@@ -3,22 +3,31 @@
 public class RegularPolygon extends ConvexPolygon {
 
     // TODO
+    double radius;
 
     public RegularPolygon(int N, double radius) {
         // TODO
+        super(new Vector2D[N]);
+        this.radius = radius;
+        double n = (double) 360 / N;
+        for(int i = 0; i < N; i++) {
+            this.vertices[i] = new Vector2D(Math.sin(Math.toDegrees(n * i)), Math.cos(Math.toDegrees(n * i)));
+        }
     }
 
     public RegularPolygon(RegularPolygon polygon) {
         // TODO
+        super(polygon.vertices);
+        this.radius = polygon.radius;
     }
 
     public void resize(double newradius) {
         // TODO
-    }
-
-    @Override
-    public String toString() {
-        // TODO
+        for(Vector2D v : vertices) {
+            v.setX(v.getX() / radius * newradius);
+            v.setY(v.getY() / radius * newradius);
+        }
+        this.radius = newradius;
     }
 
     public static void main(String[] args) {
