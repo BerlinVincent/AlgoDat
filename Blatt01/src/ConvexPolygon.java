@@ -14,7 +14,12 @@ public class ConvexPolygon extends Polygon {
 
     @Override
     public double area() {
-        return 0;
+        double totalArea = 0;
+        for(int i = 1; i < this.vertices.length - 1; i++){
+            Triangle temp = new Triangle(this.vertices[0], this.vertices[i], this.vertices[i + 1]);
+            totalArea += temp.area();
+        }
+        return totalArea;
     }
 
     public static double totalArea(Polygon[] polygons) {
