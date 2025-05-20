@@ -6,6 +6,16 @@ import java.util.Queue;
 public class StringGenome {
 	private String s = "";
 
+	StringGenome(){}
+
+	StringGenome(String s){
+		this.s = s;
+	}
+
+	StringGenome(StringGenome other) {
+		this.s = other.s;
+	}
+
 	public void addNucleotide(char c) {
 		if (c == 'A' || c == 'C' || c == 'G' || c == 'T')
 			s = s + c;
