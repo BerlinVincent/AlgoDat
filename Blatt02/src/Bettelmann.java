@@ -47,6 +47,16 @@ public class Bettelmann {
         return closedPile2;
     }
 
+    public void determineWinner() {
+        if (closedPile1.isEmpty() && closedPile2.isEmpty()) {
+            winner = 0;
+        } else if (closedPile2.isEmpty()) {
+            winner = 1;
+        } else if (closedPile1.isEmpty()) {
+            winner = 2;
+        }
+    }
+
     /**
      * Play one round of the game. This includes drawing more cards, when both players
      * have drawn cards of the same rank. At the end of the round, the player with the
@@ -55,6 +65,47 @@ public class Bettelmann {
      */
     public void playRound() {
         // TODO implement this method
+        Queue<Card> openPile1 = new LinkedList<>();
+        Queue<Card> openPile2 = new LinkedList<>();
+
+        Card compare1;
+        Card compare2;
+
+        // solange wiederholen, wie gleichwertige Karten gezogen werden
+        do {
+            // überprüfen, ob ein oder beide Zieh-Stapel leer ist und Gewinner*in bestimmen
+            determineWinner();
+            if (winner != -1) return;
+
+            // Karten von den Zieh-Stapeln ziehen und zum Anschauen merken
+            compare1 = closedPile1.peek();
+            compare2 = closedPile2.peek();
+            openPile1.add(closedPile1.pop());
+            openPile2.add(closedPile2.pop());
+
+        } while (compare1.compareTo(compare2) == 0);
+
+        // überprüfen, welche Karte den größeren Wert hat
+        if (compare1.compareTo(compare2) < 0) {
+            // Kartenstapel mit geringerem Wert wird auf den mit größerem Wert gelegt
+            while (!openPile1.isEmpty()) {
+                openPile2.add(openPile1.poll());
+            }
+            // kombinierter Kartenstapel wird umgedreht unter den Zieh-Stapel der Gewinner*in der Runde geschoben
+            while (!openPile2.isEmpty()) {
+                closedPile2.addLast(openPile2.poll());
+            }
+        } else {
+            while (!openPile2.isEmpty()) {
+                openPile1.add(openPile2.poll());
+            }
+            while (!openPile1.isEmpty()) {
+                closedPile1.addLast(openPile1.poll());
+            }
+        }
+
+        determineWinner();
+        if (winner != -1) return;
     }
 
     /**
@@ -109,12 +160,11 @@ public class Bettelmann {
     }
 
     public static void main(String[] args) {
-/*
         // Game with a complete, shuffled deck
         Bettelmann game = new Bettelmann();
         game.distributeCards();
-*/
 
+        /*
         // For testing, you may also use specific distribtions and a small number of cards like this:
         int[] deckArray = {28, 30, 6, 23, 17, 14};
         Stack<Card> deck = new Stack<>();
@@ -123,6 +173,8 @@ public class Bettelmann {
         }
         Bettelmann game = new Bettelmann();
         game.distributeCards(deck);
+
+         */
 
         // This part is the same for both of the above variants
         System.out.println("Initial situation (top card first):\n" + game);

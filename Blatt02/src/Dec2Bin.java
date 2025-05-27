@@ -28,7 +28,14 @@ public class Dec2Bin {
      * @param N the number that is to be converted.
      */
     public void convert(int N) {
-        // TODO implement this method
+        while (!binStack.empty()) {
+            binStack.pop();
+        }
+        this.N = N;
+        while (N > 0) {
+            binStack.add(N % 2);
+            N /= 2;
+        }
     }
 
     /**
@@ -42,7 +49,11 @@ public class Dec2Bin {
     @Override
     public String toString() {
         // Caution: Stack.toString() does NOT respect stack order. Do not use it.
-        // TODO implement this method
+        StringBuilder sb = new StringBuilder();
+        for (int number : binStack) {
+            sb.insert(0, number);
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args) {
@@ -50,6 +61,9 @@ public class Dec2Bin {
         dec2bin.convert(50);
         System.out.println("Die Zahl " + dec2bin.getN() + " in Binärdarstellung: " + dec2bin);
         // Do it another time to demonstrate that toString does not erase the binStack.
+        System.out.println("Die Zahl " + dec2bin.getN() + " in Binärdarstellung: " + dec2bin);
+        // Do it with a different number to test proper erasure of previously converted numbers.
+        dec2bin.convert(4);
         System.out.println("Die Zahl " + dec2bin.getN() + " in Binärdarstellung: " + dec2bin);
     }
 }
