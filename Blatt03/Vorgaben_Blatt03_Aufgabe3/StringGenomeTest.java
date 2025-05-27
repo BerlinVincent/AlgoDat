@@ -10,14 +10,18 @@ public class StringGenomeTest {
 		String temp = genome.toString();
 
 		// Methode mit gültigem Wert aufrufen und erwartetes Ergebnis überprüfen
+		System.out.println("Testing logically correct input\n");
 		genome.addNucleotide('A');
 		assertEquals(temp + 'A', genome.toString());
 
 		// Methode mit ungültigem Wert aufrufen und erwartete Exception auffangen
 		try {
+			System.out.println("Try illegal input\n");
 			genome.addNucleotide('B');
 		} catch (RuntimeException e) {
-			assertNotEquals(temp + 'B', genome.toString());
+			assertEquals(temp + 'A', genome.toString());
+			assertNotEquals(temp + "AB", genome.toString());
+			System.out.println("Illegal input not accepted\n");
 		}
 	}
 
@@ -26,13 +30,15 @@ public class StringGenomeTest {
 		// Versuchsobjekt
 		StringGenome genome = new  StringGenome("ACGT");
 
+		System.out.println("Testing logically correct index\n");
 		assertEquals('A', genome.nucleotideAt(0));
 		assertNotEquals('A', genome.nucleotideAt(1));
 
 		try {
+			System.out.println("Testing illegal index\n");
 			genome.nucleotideAt(4);
 		} catch (RuntimeException e) {
-			assert true;
+			System.out.println("Illegal index not accepted\n");
 		}
 	}
 
@@ -41,7 +47,9 @@ public class StringGenomeTest {
 		// Versuchsobjekt
 		StringGenome genome = new  StringGenome("ACGT");
 
+		System.out.println("Testing logically correct length\n");
 		assertEquals(4, genome.length());
+		System.out.println("Testing incorrect length\n");
 		assertNotEquals(0, genome.length());
 	}
 
@@ -50,7 +58,9 @@ public class StringGenomeTest {
 		// Versuchsobjekt
 		StringGenome genome = new  StringGenome("ACGT");
 
+		System.out.println("Testing logically correct toString\n");
 		assertEquals("ACGT", genome.toString());
+		System.out.println("Testing incorrect toString\n");
 		assertNotEquals("ACUT", genome.toString());
 	}
 
@@ -61,7 +71,9 @@ public class StringGenomeTest {
 		StringGenome genome2 = new  StringGenome(genome1);
 		StringGenome genome3 = new  StringGenome("ACUT");
 
+		System.out.println("Testing equal objects\n");
 		assertTrue(genome1.equals(genome2));
+		System.out.println("Testing unequal objects\n");
 		assertFalse(genome1.equals(genome3));
 	}
 }
